@@ -1,0 +1,44 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: springboot-mongodb
+spec:
+  selector:
+    app: springboot-mongodb
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 30081
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-mongodb
+spec:
+  selector:
+    matchLabels:
+      app: springboot-mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: springboot-mongodb
+    spec:
+      containers:
+        - name: springboot-mongodb
+          image: springboot-mongodb:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: database
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: host

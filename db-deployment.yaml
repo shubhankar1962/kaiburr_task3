@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kaiburrdb
+  name: kaiburrmongodb
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: kaiburrdb
+  clusterIP: None
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaiburrdb
+  labels:
+    app: kaiburrdb
+spec:
+  selector:
+    matchLabels:
+      app: kaiburrdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kaiburrdb
+      name: kaiburrmongodb
+
+
+    spec:
+      containers:
+        - image: mongo:latest
+          name: kaiburrdb
+
+          ports:
+            - containerPort: 27017
+              name: kaiburrdb

@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      database: Server
+      host: kaiburrmongodb
+      port: 27017
+
+
+#uri: mongodb+srv://santhoshraj:090702@cluster.mntwbq2.mongodb.net/?retryWrites=true&w=majority
